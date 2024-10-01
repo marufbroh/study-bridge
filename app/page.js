@@ -1,10 +1,7 @@
-import Test from "@/components/Test";
-import Image from "next/image";
+import { getCourses } from "@/queries/courses";
 
-export default function Home() {
-  return (
-    <>
-    <Test/>
-    </>
-  );
+export default async function Home() {
+  const courses = await getCourses();
+  console.log(courses);
+  return <></>;
 }
