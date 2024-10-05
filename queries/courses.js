@@ -97,7 +97,7 @@ export const getCourseDetailsByInstructor = async (instructorId) => {
 
   const totalTestimonials = testimonials.flat();
 
-  console.log(totalTestimonials);
+  // console.log(totalTestimonials);
 
   const avgRating =
     totalTestimonials.reduce((acc, obj) => {
