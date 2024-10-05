@@ -7,6 +7,8 @@ import { Course } from "@/model/course-model";
 import { Module } from "@/model/module.model";
 import { Testimonial } from "@/model/testimonial-model";
 import { User } from "@/model/user-model";
+import { getEnrollmentsForCourse } from "./enrollments";
+import { getTestimonialsForCourse } from "./testimonials";
 
 export const getCourseList = async () => {
   const courses = await Course.find({})
@@ -58,10 +60,55 @@ export const getCourseDetails = async (id) => {
       model: Testimonial,
       populate: {
         path: "user",
-        model: User
-      }
+        model: User,
+      },
     })
     .lean();
 
   return replaceMongoIdInObject(course);
+};
+
+export const getCourseDetailsByInstructor = async (instructorId) => {
+  const courses = await Course.find({ instructor: instructorId }).lean();
+
+  const enrollments = await Promise.all(
+    courses.map(async (course) => {
+      const enrollment = await getEnrollmentsForCourse(course._id.toString());
+      // console.log("enrollment",enrollment);
+      return enrollment;
+    })
+  );
+
+  const totalEnrollments = enrollments.reduce((item, currentValue) => {
+    return item.length + currentValue.length;
+  });
+
+  // const totalTestimonials = courses.reduce((item, currentValue) => {
+  //   return item.testimonials.length + currentValue.testimonials.length;
+  // });
+
+  const testimonials = await Promise.all(
+    courses.map(async (course) => {
+      const testimonial = await getTestimonialsForCourse(course._id.toString());
+      // console.log("enrollment",enrollment);
+      return testimonial;
+    })
+  );
+
+  const totalTestimonials = testimonials.flat();
+
+  console.log(totalTestimonials);
+
+  const avgRating =
+    totalTestimonials.reduce((acc, obj) => {
+      return acc + obj.rating;
+    }, 0) / totalTestimonials.length;
+
+
+  return {
+    coursesNumber: courses?.length,
+    enrollments: totalEnrollments,
+    reviews: totalTestimonials.length,
+    rating: avgRating.toPrecision(2),
+  };
 };
