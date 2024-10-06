@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 
@@ -12,23 +12,39 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 
 export function SignupForm({ role }) {
+  const router = useRouter();
   const onSubmit = async (event) => {
     event.preventDefault();
 
-try {
-    const formData = new FormData(event.currentTarget);
-    const firstName = formData.get("firstName");
-    const lastName = formData.get("lastName");
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const role = (role === "student" || "instructor") ? role : "student";
-} catch (error) {
-    
-}
+    try {
+      const formData = new FormData(event.currentTarget);
+      const firstName = formData.get("firstName");
+      const lastName = formData.get("lastName");
+      const email = formData.get("email");
+      const password = formData.get("password");
+      const userRole = role === "student" || "instructor" ? role : "student";
 
+      const response = fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+          userRole,
+        }),
+      });
 
+      (await response).status === 201 && router.push("/login");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
