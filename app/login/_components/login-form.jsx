@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -10,8 +12,29 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { credentialLogin } from "@/app/actions";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function LoginForm() {
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const formData = new FormData(event.currentTarget);
+      const response = await credentialLogin(formData);
+
+      if (!!response.error) {
+        setError(response.error);
+      }else{
+        router.push("/courses")
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
   return (
     <Card className="mx-auto max-w-sm w-full">
       <CardHeader>
@@ -21,7 +44,7 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form action="">
+        <form onSubmit={onSubmit}>
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>

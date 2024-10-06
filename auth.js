@@ -1,7 +1,7 @@
-import bcrypt from "bcryptjs/dist/bcrypt";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { User } from "./model/user-model";
+import bcrypt from "bcryptjs/dist/bcrypt";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -20,9 +20,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const user = await User.findOne({ email: credentials?.email });
           if (user) {
             const isMatch = await bcrypt.compare(
-              user?.password,
-              credentials?.password
+                credentials.password,
+                user.password
             );
+
+            // console.log("isMatch", isMatch);
 
             if (isMatch) {
               return user;
@@ -33,7 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             throw new Error("User not found.");
           }
         } catch (error) {
-            throw new Error(error);
+          throw new Error(error);
         }
       },
     }),
