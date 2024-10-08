@@ -2,11 +2,10 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { User } from "./model/user-model";
 import bcrypt from "bcryptjs/dist/bcrypt";
+import { authConfig } from "./auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  session: {
-    strategy: "jwt",
-  },
+  ...authConfig,
   providers: [
     Credentials({
       credentials: {
@@ -20,8 +19,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const user = await User.findOne({ email: credentials?.email });
           if (user) {
             const isMatch = await bcrypt.compare(
-                credentials.password,
-                user.password
+              credentials.password,
+              user.password
             );
 
             // console.log("isMatch", isMatch);
