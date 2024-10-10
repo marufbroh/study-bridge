@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-const CourseDetailsIntro = ({ title, subtitle, thumbnail }) => {
+const CourseDetailsIntro = ({ course }) => {
+  const { title, subtitle, thumbnail } = course;
   return (
     <div className="overflow-x-hidden  grainy">
       <section className="pt-12  sm:pt-16">
@@ -22,7 +23,7 @@ const CourseDetailsIntro = ({ title, subtitle, thumbnail }) => {
               </p>
 
               <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
-                <EnrollCourse asLink={false} />
+                <EnrollCourse asLink={false} course={course} />
                 <Link
                   href=""
                   className={cn(

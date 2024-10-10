@@ -9,11 +9,7 @@ const SingleCoursePage = async ({ params: { id } }) => {
   const course = await getCourseDetails(id);
   return (
     <>
-      <CourseDetailsIntro
-        title={course?.title}
-        subtitle={course?.subtitle}
-        thumbnail={course?.thumbnail}
-      />
+      <CourseDetailsIntro course={course} />
       <CourseDetails course={course} />
 
       {course?.testimonials && (
@@ -22,11 +18,7 @@ const SingleCoursePage = async ({ params: { id } }) => {
         />
       )}
 
-      <RelatedCourses />
-
-      {/* Authors */}
-      {/* https://avatars.githubusercontent.com/u/1416832?v=4 */}
-      {/* https://avatars.githubusercontent.com/u/3633137?v=4 */}
+      {/* <RelatedCourses /> */}
     </>
   );
 };
