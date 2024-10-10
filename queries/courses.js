@@ -79,9 +79,9 @@ export const getCourseDetailsByInstructor = async (instructorId) => {
     })
   );
 
-  const totalEnrollments = enrollments.reduce((item, currentValue) => {
-    return item.length + currentValue.length;
-  });
+  const totalEnrollments = enrollments.reduce((acc, obj) => {
+    return acc + obj.length;
+  }, 0);
 
   // const totalTestimonials = courses.reduce((item, currentValue) => {
   //   return item.testimonials.length + currentValue.testimonials.length;
@@ -103,7 +103,6 @@ export const getCourseDetailsByInstructor = async (instructorId) => {
     totalTestimonials.reduce((acc, obj) => {
       return acc + obj.rating;
     }, 0) / totalTestimonials.length;
-
 
   return {
     coursesNumber: courses?.length,
