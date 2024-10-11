@@ -13,8 +13,8 @@ async function Profile() {
       <PersonalDetails userInfo={loggedInUser}/>
       <div className="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900 mt-[30px]">
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-5">
-          <ContactInfo />
-          <ChangePassword />
+          <ContactInfo userInfo={loggedInUser} />
+          <ChangePassword  />
         </div>
       </div>
     </>

@@ -1,9 +1,11 @@
 "use client";
+import { updateUserInfo } from "@/app/actions/account";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const PersonalDetails = ({ userInfo }) => {
   const [infoState, setInfoState] = useState({
@@ -19,13 +21,22 @@ const PersonalDetails = ({ userInfo }) => {
     const value = event.target.value;
 
     setInfoState({
-      ...infoState, [field]: value
-    })
+      ...infoState,
+      [field]: value,
+    });
+  };
 
-  
-  }
-  
-  
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+
+    try {
+      await updateUserInfo(userInfo?.email, infoState);
+      toast.success("User details updated successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error(`Error: ${error.message}`);
+    }
+  };
 
   return (
     <div className="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900">
