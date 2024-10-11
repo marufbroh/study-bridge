@@ -2,61 +2,73 @@
 
 import { stripe } from "@/lib/stripe";
 import { formatAmountForStripe } from "@/lib/stripe-helpers";
+import { getCourseDetails } from "@/queries/courses";
 import { headers } from "next/headers";
 
 const CURRENCY = "USD";
 
 export async function createCheckoutSession(data) {
-    const ui_mode = "hosted";
-    const origin = headers().get("origin");
-    const courseId = data.get("courseId");
+  const ui_mode = "hosted";
+  const origin = headers().get("origin");
+  const courseId = data.get("courseId");
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-        mode: "payment",
-        submit_type: "auto",
-        line_items: [
-            {
-                quantity: 1,
-                price_data: {
-                    currency: CURRENCY,
+  const course = await getCourseDetails(data);
 
-                    product_data: {
-                        name: data.get("courseName"),
-                    },
+  if (!course) return new Error("Course Not Found");
 
-                    unit_amount: formatAmountForStripe(data.get("coursePrice"), CURRENCY),
-                },
-            },
-        ],
+  const courseName = course?.title;
+  const coursePrice = course?.price;
 
-        ...(ui_mode === "hosted" && {
-            success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}&courseId=${courseId}`,
+  const checkoutSession = await stripe.checkout.sessions.create({
+    mode: "payment",
+    submit_type: "auto",
+    line_items: [
+      {
+        quantity: 1,
+        price_data: {
+          currency: CURRENCY,
 
-            cancel_url: `${origin}/courses`,
-        }),
+          product_data: {
+            name: courseName,
+          },
 
-        ui_mode,
-    });
+          unit_amount: formatAmountForStripe(coursePrice, CURRENCY),
+        },
+      },
+    ],
 
-    return {
-        client_secret: checkoutSession.client_secret,
+    ...(ui_mode === "hosted" && {
+      success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}&courseId=${courseId}`,
 
-        url: checkoutSession.url,
-    };
+      cancel_url: `${origin}/courses`,
+    }),
+
+    ui_mode,
+  });
+
+  return {
+    client_secret: checkoutSession.client_secret,
+
+    url: checkoutSession.url,
+  };
 }
 
 export async function createPaymentIntent(data) {
-    const paymentIntent = await stripe.paymentIntents.create({
-        amount: formatAmountForStripe(
-            data.get("coursePrice"),
+  const course = await getCourseDetails(data);
 
-            CURRENCY
-        ),
+  if (!course) return new Error("Course Not Found");
+  const coursePrice = course?.price;
+  
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: formatAmountForStripe(
+      coursePrice,
+      CURRENCY
+    ),
 
-        automatic_payment_methods: { enabled: true },
+    automatic_payment_methods: { enabled: true },
 
-        currency: CURRENCY,
-    });
+    currency: CURRENCY,
+  });
 
-    return { client_secret: paymentIntent.client_secret };
+  return { client_secret: paymentIntent.client_secret };
 }

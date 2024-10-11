@@ -58,7 +58,7 @@ const Success = async ({ searchParams: { session_id, courseId } }) => {
       },
     ];
 
-    const emailSentResponse = await sendEmails(emailsToSend);
+    // const emailSentResponse = await sendEmails(emailsToSend);
     // console.log(emailSentResponse);
   }
 
