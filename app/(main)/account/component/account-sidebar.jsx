@@ -23,12 +23,12 @@ const AccountSidebar = async () => {
               name="profile-image"
               type="file"
               className="hidden"
-              onchange="loadFile(event)"
+              // onChange={`loadFile(event)`}
             />
             <div>
               <div className="relative size-28 mx-auto">
                 <Image
-                  src={loggedInUser?.profilePicture}
+                  src={loggedInUser?.profilePicture || "https://i.pravatar.cc"}
                   className="rounded-full shadow dark:shadow-gray-800 ring-4 ring-slate-50 dark:ring-slate-800"
                   id="profile-banner"
                   alt={`${loggedInUser?.firstName} ${loggedInUser?.lastName}`}
