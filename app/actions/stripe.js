@@ -12,7 +12,7 @@ export async function createCheckoutSession(data) {
   const origin = headers().get("origin");
   const courseId = data.get("courseId");
 
-  const course = await getCourseDetails(data);
+  const course = await getCourseDetails(courseId);
 
   if (!course) return new Error("Course Not Found");
 

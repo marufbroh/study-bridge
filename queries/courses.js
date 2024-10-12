@@ -42,30 +42,34 @@ export const getCourseList = async () => {
 };
 
 export const getCourseDetails = async (id) => {
-  const course = await Course.findById(id)
-    .populate({
-      path: "category",
-      model: Category,
-    })
-    .populate({
-      path: "instructor",
-      model: User,
-    })
-    .populate({
-      path: "modules",
-      model: Module,
-    })
-    .populate({
-      path: "testimonials",
-      model: Testimonial,
-      populate: {
-        path: "user",
+  try {
+    const course = await Course.findById(id)
+      .populate({
+        path: "category",
+        model: Category,
+      })
+      .populate({
+        path: "instructor",
         model: User,
-      },
-    })
-    .lean();
+      })
+      .populate({
+        path: "modules",
+        model: Module,
+      })
+      .populate({
+        path: "testimonials",
+        model: Testimonial,
+        populate: {
+          path: "user",
+          model: User,
+        },
+      })
+      .lean();
 
-  return replaceMongoIdInObject(course);
+    return replaceMongoIdInObject(course);
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const getCourseDetailsByInstructor = async (instructorId) => {

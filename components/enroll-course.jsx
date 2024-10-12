@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { createCheckoutSession } from "@/app/actions/stripe";
 
 export const EnrollCourse = ({ asLink, courseId }) => {
+  // console.log({courseId});
   const formAction = async (data) => {
     const { url } = await createCheckoutSession(data);
 

@@ -6,7 +6,7 @@ const CourseInstructor = async ({ course }) => {
   const instructor = course?.instructor;
   const fullName = `${instructor?.firstName} ${instructor?.lastName}`;
   const {coursesNumber, enrollments, reviews, rating} = await getCourseDetailsByInstructor(
-    instructor._id.toString()
+    instructor?._id.toString()
   );
   return (
     <div className="bg-gray-50 rounded-md p-8">
