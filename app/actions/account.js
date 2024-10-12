@@ -50,3 +50,13 @@ export async function changePassword(email, oldPassword, newPassword) {
     }
 
 }
+
+export async function updateUserProfile(email, updatedData) {
+    try {
+        const filter = {email: email};
+        await User.findOneAndUpdate(filter, updatedData)
+        revalidatePath("/account")
+    } catch (error) {
+        throw new Error(error)
+    }
+}
