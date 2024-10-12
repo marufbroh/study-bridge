@@ -26,4 +26,4 @@ const enrollmentSchema = new Schema({
   student: { type: Schema.ObjectId, ref: "User" },
 });
 
-export const Enrollment = mongoose.models?.Enrollment ?? mongoose.model("Enrollment", enrollmentSchema);
+export const Enrollment = mongoose.models.Enrollment ?? mongoose.model("Enrollment", enrollmentSchema);
