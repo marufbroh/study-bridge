@@ -78,23 +78,25 @@ export const getCourseDetailsByInstructor = async (instructorId) => {
   const enrollments = await Promise.all(
     courses.map(async (course) => {
       const enrollment = await getEnrollmentsForCourse(course._id.toString());
-      // console.log("enrollment",enrollment);
       return enrollment;
     })
   );
 
-  const totalEnrollments = enrollments.reduce((acc, obj) => {
-    return acc + obj.length;
-  }, 0);
+  const groupByCourses = Object.groupBy(enrollments.flat(), ({course}) => course);
 
-  // const totalTestimonials = courses.reduce((item, currentValue) => {
-  //   return item.testimonials.length + currentValue.testimonials.length;
-  // });
+  const totalRevenue = courses.reduce((acc, course) => {
+    return acc + groupByCourses[course?._id].length * course?.price
+  }, 0)
+
+  // console.log({totalRevenue});
+
+  const totalEnrollments = enrollments.reduce((acc, arr) => {
+    return acc + arr.length;
+  }, 0);
 
   const testimonials = await Promise.all(
     courses.map(async (course) => {
       const testimonial = await getTestimonialsForCourse(course._id.toString());
-      // console.log("enrollment",enrollment);
       return testimonial;
     })
   );
@@ -113,5 +115,6 @@ export const getCourseDetailsByInstructor = async (instructorId) => {
     enrollments: totalEnrollments,
     reviews: totalTestimonials.length,
     rating: avgRating.toPrecision(2),
+    revenue: totalRevenue,
   };
 };
