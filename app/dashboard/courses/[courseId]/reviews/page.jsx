@@ -1,3 +1,4 @@
+import { getCourseDetails } from "@/queries/courses";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 
@@ -15,10 +16,12 @@ const reviews = [
     rating: 5,
   },
 ];
-const ReviewsPage = async () => {
+
+const ReviewsPage = async ({params: {courseId}}) => {
+  const course = await getCourseDetails(courseId)
   return (
     <div className="p-6">
-      <h2>Think in a Redux way reviews</h2>
+      <h2>{course?.title}</h2>
       <DataTable columns={columns} data={reviews} />
     </div>
   );

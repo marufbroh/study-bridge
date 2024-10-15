@@ -72,7 +72,7 @@ export const getCourseDetails = async (id) => {
   }
 };
 
-export const getCourseDetailsByInstructor = async (instructorId) => {
+export const getCourseDetailsByInstructor = async (instructorId, expend) => {
   const courses = await Course.find({ instructor: instructorId }).lean();
 
   const enrollments = await Promise.all(
@@ -82,11 +82,16 @@ export const getCourseDetailsByInstructor = async (instructorId) => {
     })
   );
 
-  const groupByCourses = Object.groupBy(enrollments.flat(), ({course}) => course);
+  const groupByCourses = Object.groupBy(
+    enrollments.flat(),
+    ({ course }) => course
+  );
+
+  // console.log(groupByCourses);
 
   const totalRevenue = courses.reduce((acc, course) => {
-    return acc + groupByCourses[course?._id].length * course?.price
-  }, 0)
+    return acc + groupByCourses[course?._id].length * course?.price;
+  }, 0);
 
   // console.log({totalRevenue});
 
@@ -109,6 +114,15 @@ export const getCourseDetailsByInstructor = async (instructorId) => {
     totalTestimonials.reduce((acc, obj) => {
       return acc + obj.rating;
     }, 0) / totalTestimonials.length;
+
+
+    if(expend){
+      return {
+        courses: courses?.flat(),
+        enrollments: enrollments?.flat(),
+        reviews: totalTestimonials
+      }
+    }
 
   return {
     coursesNumber: courses?.length,
