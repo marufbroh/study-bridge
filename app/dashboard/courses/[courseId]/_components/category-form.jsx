@@ -18,49 +18,14 @@ import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Combobox } from "@/components/ui/combobox";
+import { updateCourse } from "@/app/actions/course";
 
 const formSchema = z.object({
-  categoryId: z.string().min(1),
+  value: z.string().min(1),
 });
 
-export const CategoryForm = ({
-  initialData,
-  courseId,
-  options = [
-    {
-      value: "design",
-      label: "Design",
-    },
-    {
-      value: "development",
-      label: "Development",
-    },
-    {
-      value: "marketing",
-      label: "Marketing",
-    },
-    {
-      value: "it_software",
-      label: "IT & Software",
-    },
-    {
-      value: "personal_development",
-      label: "Personal Development",
-    },
-    {
-      value: "business",
-      label: "Business",
-    },
-    {
-      value: "photography",
-      label: "Photography",
-    },
-    {
-      value: "music",
-      label: "Music",
-    },
-  ],
-}) => {
+export const CategoryForm = ({ initialData, courseId, options }) => {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -69,7 +34,7 @@ export const CategoryForm = ({
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryId: initialData?.categoryId || "",
+      value: initialData?.value || "",
     },
   });
 
@@ -77,6 +42,11 @@ export const CategoryForm = ({
 
   const onSubmit = async (values) => {
     try {
+      const selectedCategories = options.find(
+        (option) => option.value === values.value
+      );
+
+      await updateCourse(courseId, { category: selectedCategories?.id });
       toast.success("Course updated");
       toggleEdit();
       router.refresh();
@@ -86,7 +56,7 @@ export const CategoryForm = ({
   };
 
   const selectedOptions = options.find(
-    (option) => option.value === initialData.categoryId
+    (option) => option.value === initialData.value
   );
 
   return (
@@ -108,7 +78,7 @@ export const CategoryForm = ({
         <p
           className={cn(
             "text-sm mt-2",
-            !initialData.categoryId && "text-slate-500 italic"
+            !initialData.value && "text-slate-500 italic"
           )}
         >
           {selectedOptions?.label || "No category"}
@@ -123,7 +93,7 @@ export const CategoryForm = ({
           >
             <FormField
               control={form.control}
-              name="categoryId"
+              name="value"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

@@ -41,8 +41,7 @@ export const TitleForm = ({ initialData = {}, courseId }) => {
 
   const onSubmit = async (values) => {
     try {
-      
-await updateCourse(courseId, values)
+      await updateCourse(courseId, values);
       toggleEdit();
       router.refresh();
       toast.success("Course tittle has been changed");
