@@ -11,7 +11,7 @@ import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
 
 export const getCourseList = async () => {
-  const courses = await Course.find({})
+  const courses = await Course.find({active: true})
     .select([
       "title",
       "subtitle",
@@ -73,10 +73,10 @@ export const getCourseDetails = async (id) => {
 };
 
 export const getCourseDetailsByInstructor = async (instructorId, expend) => {
-  const courses = await Course.find({ instructor: instructorId }).lean();
+  const publishedCourses = await Course.find({ instructor: instructorId, active: true }).lean();
 
   const enrollments = await Promise.all(
-    courses.map(async (course) => {
+    publishedCourses.map(async (course) => {
       const enrollment = await getEnrollmentsForCourse(course._id.toString());
       return enrollment;
     })
@@ -89,7 +89,7 @@ export const getCourseDetailsByInstructor = async (instructorId, expend) => {
 
   // console.log(groupByCourses);
 
-  const totalRevenue = courses.reduce((acc, course) => {
+  const totalRevenue = publishedCourses.reduce((acc, course) => {
     return acc + groupByCourses[course?._id].length * course?.price;
   }, 0);
 
@@ -100,7 +100,7 @@ export const getCourseDetailsByInstructor = async (instructorId, expend) => {
   }, 0);
 
   const testimonials = await Promise.all(
-    courses.map(async (course) => {
+    publishedCourses.map(async (course) => {
       const testimonial = await getTestimonialsForCourse(course._id.toString());
       return testimonial;
     })
@@ -117,18 +117,28 @@ export const getCourseDetailsByInstructor = async (instructorId, expend) => {
 
 
     if(expend){
+      const allCourses = await Course.find({ instructor: instructorId }).lean();
       return {
-        courses: courses?.flat(),
+        courses: allCourses?.flat(),
         enrollments: enrollments?.flat(),
         reviews: totalTestimonials
       }
     }
 
   return {
-    coursesNumber: courses?.length,
+    coursesNumber: publishedCourses?.length,
     enrollments: totalEnrollments,
     reviews: totalTestimonials.length,
     rating: avgRating.toPrecision(2),
     revenue: totalRevenue,
   };
 };
+
+export const create = async (courseData) => {
+  try {
+    const course = await Course.create(courseData);
+    return JSON.parse(JSON.stringify(course))
+  } catch (error) {
+    throw new Error(error)
+  }
+}
