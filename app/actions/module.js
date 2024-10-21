@@ -40,3 +40,11 @@ export async function reOrderModules(data) {
     throw new Error(error);
   }
 }
+
+export async function updateModule(moduleId, data) {
+  try {
+    await Module.findByIdAndUpdate(moduleId, data);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
