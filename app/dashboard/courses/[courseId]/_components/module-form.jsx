@@ -57,7 +57,7 @@ export const ModulesForm = ({ initialData, courseId }) => {
       setModules((modules) => [
         ...modules,
         {
-          id: createdModule?._id.toString(),
+          id: createdModule?._id?.toString(),
           title: values.title,
         },
       ]);

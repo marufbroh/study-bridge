@@ -90,7 +90,8 @@ export const getCourseDetailsByInstructor = async (instructorId, expend) => {
   // console.log(groupByCourses);
 
   const totalRevenue = publishedCourses.reduce((acc, course) => {
-    return acc + groupByCourses[course?._id].length * course?.price;
+    const quantity = groupByCourses[course?._id] ? groupByCourses[course?._id].length : 0;
+    return acc + quantity * course?.price;
   }, 0);
 
   // console.log({totalRevenue});

@@ -19,7 +19,7 @@ export async function createModule(data) {
     });
 
     const course = await Course.findById(courseId);
-    course.modules.push(createModule._id);
+    course.modules.push(createdModule._id);
 
     course.save();
 
