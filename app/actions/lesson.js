@@ -21,14 +21,25 @@ export async function createLesson(formData) {
   } catch (error) {
     throw new Error(error);
   }
-};
+}
 
 export async function reOrderLesson(data) {
-    try {
-        await Promise.all(data.map(async (element) => {
-            await Lesson.findByIdAndUpdate(element.id, {order: element.position});
-    }));
-    } catch (error) {
-        throw new Error(error)
-    }
+  try {
+    await Promise.all(
+      data.map(async (element) => {
+        await Lesson.findByIdAndUpdate(element.id, { order: element.position });
+      })
+    );
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export async function updateLesson(lessonId, data) {
+  // console.log("**** updateLesson", lessonId, data);
+  try{
+    await Lesson.findByIdAndUpdate(lessonId, data);
+  } catch (error) {
+    throw new Error(error);
+  }
 }
