@@ -2,12 +2,11 @@
 
 import { Trash } from "lucide-react";
 
+import { changeModulePublishedState, deleteModule } from "@/app/actions/module";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { changeLessonPublishedState, deleteLesson } from "@/app/actions/lesson";
-import { changeModulePublishedState, deleteModule } from "@/app/actions/module";
-import { useRouter } from "next/navigation";
 
 export const ModuleActions = ({ courseId, module }) => {
   const [action, setAction] = useState(null);

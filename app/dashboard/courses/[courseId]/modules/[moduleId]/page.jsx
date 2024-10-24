@@ -18,7 +18,7 @@ import { ModuleActions } from "./_components/module-action";
 const Module = async ({ params: { courseId, moduleId } }) => {
   const myModule = await getModule(moduleId);
 
-  const lessons = replaceMongoIdInArray(myModule?.lessonIds).sort(
+  const lessons = replaceMongoIdInArray(myModule?.lessonIds)?.sort(
     (a, b) => a.order - b.order
   );
 
