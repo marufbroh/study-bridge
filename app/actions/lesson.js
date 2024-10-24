@@ -49,7 +49,7 @@ export async function changeLessonPublishedState(lessonId) {
   try {
     const lesson = await Lesson.findById(lessonId);
     const res = await Lesson.findByIdAndUpdate(
-      lesson,
+      lessonId,
       {
         active: !lesson.active,
       },
