@@ -100,7 +100,7 @@ export const LessonForm = ({ initialData, moduleId, courseId }) => {
   };
 
   const onEdit = (id) => {
-    const foundLesson = lessons.find(lesson => lesson.id === id);
+    const foundLesson = lessons.find((lesson) => lesson.id === id);
     setLessonToEdit(foundLesson);
     setIsEditing(true);
   };
@@ -174,7 +174,13 @@ export const LessonForm = ({ initialData, moduleId, courseId }) => {
           Drag & Drop to reorder the lessons
         </p>
       )}
-      <LessonModal open={isEditing} setOpen={setIsEditing} courseId={courseId} lesson={lessonToEdit} />
+      <LessonModal
+        open={isEditing}
+        setOpen={setIsEditing}
+        courseId={courseId}
+        moduleId={moduleId}
+        lesson={lessonToEdit}
+      />
     </div>
   );
 };

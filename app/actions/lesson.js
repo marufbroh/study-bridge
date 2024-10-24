@@ -33,12 +33,29 @@ export async function reOrderLesson(data) {
   } catch (error) {
     throw new Error(error);
   }
-};
+}
 
 export async function updateLesson(lessonId, data) {
   // console.log("**** updateLesson", lessonId, data);
-  try{
+  try {
     await Lesson.findByIdAndUpdate(lessonId, data);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function changeLessonPublishedState(lessonId) {
+  try {
+    const lesson = await Lesson.findById(lessonId);
+    const res = await Lesson.findByIdAndUpdate(
+      lesson,
+      {
+        active: !lesson.active,
+      },
+      { lean: true }
+    );
+
+    return res.active;
   } catch (error) {
     throw new Error(error);
   }

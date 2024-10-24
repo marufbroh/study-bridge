@@ -8,7 +8,7 @@ export const CourseActions = ({ isPublished = false }) => {
   return (
     <div className="flex items-center gap-x-2">
       <Button variant="outline" size="sm">
-        {isPublished ? "Unpublish" : "Publish"}
+        {isPublished ? "Unpublished" : "Publish"}
       </Button>
 
       <Button size="sm">

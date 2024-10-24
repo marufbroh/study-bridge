@@ -17,7 +17,9 @@ import { LessonDescriptionForm } from "./lesson-description-form";
 import { LessonAccessForm } from "./lesson-access-form";
 import { VideoUrlForm } from "./video-url-form";
 import { CourseActions } from "../../../_components/course-action";
-export const LessonModal = ({ open, setOpen, courseId, lesson }) => {
+import { LessonActions } from "./lesson-action";
+export const LessonModal = ({ open, setOpen, courseId, moduleId, lesson }) => {
+  const postDelete = () => {};
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {/* <DialogTrigger>Open</DialogTrigger> */}
@@ -38,7 +40,11 @@ export const LessonModal = ({ open, setOpen, courseId, lesson }) => {
                 Back to course setup
               </Link>
               <div className="flex items-center justify-end">
-                <CourseActions />
+                <LessonActions
+                  lesson={lesson}
+                  moduleId={moduleId}
+                  onDelete={postDelete}
+                />
               </div>
             </div>
           </div>
@@ -50,14 +56,14 @@ export const LessonModal = ({ open, setOpen, courseId, lesson }) => {
                   <h2 className="text-xl">Customize Your chapter</h2>
                 </div>
                 <LessonTitleForm
-                  initialData={{title: lesson?.title}}
+                  initialData={{ title: lesson?.title }}
                   courseId={courseId}
                   lessonId={lesson?.id}
                 />
                 <LessonDescriptionForm
-                 initialData={{description: lesson?.description}}
-                 courseId={courseId}
-                 lessonId={lesson?.id}
+                  initialData={{ description: lesson?.description }}
+                  courseId={courseId}
+                  lessonId={lesson?.id}
                 />
               </div>
               <div>
@@ -66,7 +72,7 @@ export const LessonModal = ({ open, setOpen, courseId, lesson }) => {
                   <h2 className="text-xl">Access Settings</h2>
                 </div>
                 <LessonAccessForm
-                  initialData={{isFree: lesson?.access === "public"}}
+                  initialData={{ isFree: lesson?.access === "public" }}
                   courseId={courseId}
                   lessonId={lesson?.id}
                 />
@@ -80,7 +86,7 @@ export const LessonModal = ({ open, setOpen, courseId, lesson }) => {
               <VideoUrlForm
                 initialData={{
                   url: lesson?.video_url,
-                  duration: lesson?.duration
+                  duration: lesson?.duration,
                 }}
                 courseId={courseId}
                 lessonId={lesson?.id}
