@@ -10,7 +10,7 @@ import { changeModulePublishedState, deleteModule } from "@/app/actions/module";
 import { useRouter } from "next/navigation";
 
 export const ModuleActions = ({ courseId, module }) => {
-  const [action, setAction] = useState();
+  const [action, setAction] = useState(null);
   const [published, setPublished] = useState(module?.active);
   const router = useRouter();
 
@@ -33,7 +33,8 @@ export const ModuleActions = ({ courseId, module }) => {
             );
           }else{
             await deleteModule(module?.id, courseId);
-            // router.refresh();
+            toast.success("The module has been deleted successfully")
+            router.refresh();
             router.push(`/dashboard/courses/${courseId}`)
           }
           break;

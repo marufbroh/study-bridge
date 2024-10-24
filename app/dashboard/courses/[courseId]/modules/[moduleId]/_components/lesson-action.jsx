@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { changeLessonPublishedState, deleteLesson } from "@/app/actions/lesson";
 
 export const LessonActions = ({ lesson, moduleId, onDelete }) => {
-  const [action, setAction] = useState();
+  const [action, setAction] = useState(null);
   const [published, setPublished] = useState(lesson?.active);
 
   const handleSubmit = async (event) => {
@@ -29,6 +29,7 @@ export const LessonActions = ({ lesson, moduleId, onDelete }) => {
             );
           }else{
             await deleteLesson(lesson.id, moduleId);
+            toast.success("The lesson has been deleted successfully")
             onDelete();
           }
           break;
