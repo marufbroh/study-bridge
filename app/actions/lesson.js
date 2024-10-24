@@ -3,6 +3,7 @@
 import { Lesson } from "@/model/lesson.model";
 import { Module } from "@/model/module.model";
 import { create } from "@/queries/lessons";
+import mongoose from "mongoose";
 
 export async function createLesson(formData) {
   try {
@@ -56,6 +57,17 @@ export async function changeLessonPublishedState(lessonId) {
     );
 
     return res.active;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function deleteLesson(lessonId, moduleId) {
+  try {
+    const currentModule = await Module.findById(moduleId);
+    currentModule.lessonIds.pull(new mongoose.Types.ObjectId(`${lessonId}`));
+    await Lesson.findByIdAndDelete(lessonId);
+    currentModule.save();
   } catch (error) {
     throw new Error(error);
   }

@@ -18,8 +18,11 @@ import { LessonAccessForm } from "./lesson-access-form";
 import { VideoUrlForm } from "./video-url-form";
 import { CourseActions } from "../../../_components/course-action";
 import { LessonActions } from "./lesson-action";
-export const LessonModal = ({ open, setOpen, courseId, moduleId, lesson }) => {
-  const postDelete = () => {};
+export const LessonModal = ({ open, setOpen, courseId, moduleId, lesson, onclose }) => {
+  const postDelete = () => {
+    setOpen(false);
+    onclose();
+  };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {/* <DialogTrigger>Open</DialogTrigger> */}

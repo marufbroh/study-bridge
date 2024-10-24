@@ -5,7 +5,7 @@ import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
-import { changeLessonPublishedState } from "@/app/actions/lesson";
+import { changeLessonPublishedState, deleteLesson } from "@/app/actions/lesson";
 
 export const LessonActions = ({ lesson, moduleId, onDelete }) => {
   const [action, setAction] = useState();
@@ -25,7 +25,7 @@ export const LessonActions = ({ lesson, moduleId, onDelete }) => {
         case "delete": {
           if (published) {
             toast.error(
-              "A published lesson can not be deleted. First unpublish it, then delete."
+              "A published lesson can not be deleted. First Unpublished it, then delete."
             );
           }else{
             await deleteLesson(lesson.id, moduleId);

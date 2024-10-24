@@ -180,6 +180,7 @@ export const LessonForm = ({ initialData, moduleId, courseId }) => {
         courseId={courseId}
         moduleId={moduleId}
         lesson={lessonToEdit}
+        onclose={() => window.location.reload()}
       />
     </div>
   );
