@@ -1,4 +1,7 @@
-import { replaceMongoIdInArray, replaceMongoIdInObject } from "@/lib/convertData";
+import {
+  replaceMongoIdInArray,
+  replaceMongoIdInObject,
+} from "@/lib/convertData";
 import { Quizset } from "@/model/quizset-model";
 import { Quiz } from "@/model/quizzes-model";
 
@@ -22,6 +25,15 @@ export const getQuizSetById = async (id) => {
       .lean();
 
     return replaceMongoIdInObject(quizSet);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export async function createQuiz(quizData) {
+  try {
+    const quiz = await Quiz.create(quizData);
+    return quiz._id.toString();
   } catch (error) {
     throw new Error(error);
   }
