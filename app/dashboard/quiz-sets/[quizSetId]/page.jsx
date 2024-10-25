@@ -12,6 +12,8 @@ import { Trash } from "lucide-react";
 import { CircleCheck } from "lucide-react";
 import { Circle } from "lucide-react";
 import { getQuizSetById } from "@/queries/quizzes";
+import { QuizCardActions } from "./_components/quiz-card-actions";
+
 const initialQuizes = [
   {
     id: 1,
@@ -62,7 +64,7 @@ const EditQuizSet = async ({ params: { quizSetId } }) => {
   const quizSet = await getQuizSetById(quizSetId);
   const quizzes = quizSet.quizIds.map((quiz) => {
     return {
-      id: quiz._id.toString,
+      id: quiz._id.toString(),
       title: quiz.title,
       options: quiz.options.map((option) => ({
         label: option.text,
@@ -91,6 +93,7 @@ const EditQuizSet = async ({ params: { quizSetId } }) => {
             />)}
             <div className="space-y-6">
               {quizzes.map((quiz) => {
+                // console.log(quiz);
                 return (
                   <div
                     key={quiz.id}
@@ -119,16 +122,7 @@ const EditQuizSet = async ({ params: { quizSetId } }) => {
                       })}
                     </div>
                     <div className="flex items-center justify-end gap-2 mt-6">
-                      <Button variant="ghost" size="sm">
-                        <Pencil className="w-3 mr-1" /> Edit
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="text-destructive"
-                        variant="ghost"
-                      >
-                        <Trash className="w-3 mr-1" /> Delete
-                      </Button>
+                      <QuizCardActions quiz={quiz} quizSetId={quizSetId}/>
                     </div>
                   </div>
                 );

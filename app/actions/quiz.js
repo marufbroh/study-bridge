@@ -2,7 +2,9 @@
 
 import { getSlug } from "@/lib/convertData";
 import { Quizset } from "@/model/quizset-model";
+import { Quiz } from "@/model/quizzes-model";
 import { createQuiz } from "@/queries/quizzes";
+import mongoose from "mongoose";
 
 export async function updateQuizSet(quizSetId, dataToUpdate) {
   try {
@@ -43,6 +45,17 @@ export async function addQuizToQuizSet(quizSetId, quizData) {
     const quizSet = await Quizset.findById(quizSetId);
     quizSet.quizIds.push(createdQuizId);
 
+    quizSet.save();
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function deleteQuiz(quizId, quizSetId) {
+  try {
+    const quizSet = await Quizset.findById(quizSetId);
+    quizSet.quizIds.pull(new mongoose.Types.ObjectId(`${quizId}`));
+    await Quiz.findByIdAndDelete(quizId);
     quizSet.save();
   } catch (error) {
     throw new Error(error);
