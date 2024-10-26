@@ -9,6 +9,7 @@ import { Testimonial } from "@/model/testimonial-model";
 import { User } from "@/model/user-model";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
+import { Lesson } from "@/model/lesson.model";
 
 export const getCourseList = async () => {
   const courses = await Course.find({active: true})
@@ -55,6 +56,10 @@ export const getCourseDetails = async (id) => {
       .populate({
         path: "modules",
         model: Module,
+        populate: {
+          path: "lessonIds",
+          model: Lesson
+        }
       })
       .populate({
         path: "testimonials",

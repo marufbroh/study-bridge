@@ -5,6 +5,7 @@ import { Course } from "@/model/course-model";
 import { Lesson } from "@/model/lesson.model";
 import { Module } from "@/model/module.model";
 import { create } from "@/queries/courses";
+import mongoose from "mongoose";
 
 export async function createCourse(data) {
   try {
@@ -73,5 +74,15 @@ export async function deleteCourse(courseId) {
     await Course.findByIdAndDelete(courseId);
   } catch (error) {
     throw new Error(`Failed to delete course: ${error.message}`);
+  }
+};
+
+export async function updateQuizSetForCourse(courseId, dataToUpdate) {
+  try {
+    const data = {};
+    data["quizSet"] = new mongoose.Types.ObjectId(`${dataToUpdate.quizSetId}`)
+    await Course.findByIdAndUpdate(courseId, data);
+  } catch (error) {
+    throw new Error(error)
   }
 }

@@ -62,7 +62,7 @@ const initialQuizes = [
 ];
 const EditQuizSet = async ({ params: { quizSetId } }) => {
   const quizSet = await getQuizSetById(quizSetId);
-  const quizzes = quizSet.quizIds.map((quiz) => {
+  const quizzes = quizSet?.quizIds.map((quiz) => {
     return {
       id: quiz._id.toString(),
       title: quiz.title,

@@ -4,7 +4,7 @@ import { Tv } from "lucide-react";
 
 const CourseLessonList = async ({ lessonId }) => {
   const lesson = await getLesson(lessonId);
-  //   console.log(lesson);
+  // console.log(lesson);
   return (
     <button
       type="button"
