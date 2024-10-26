@@ -1,7 +1,7 @@
 import AlertBanner from "@/components/alert-banner";
 import { IconBadge } from "@/components/icon-badge";
 import { LayoutDashboard } from "lucide-react";
-import { QuizSetAction } from "./_components/quiz-set-action";
+import {  QuizSetActions } from "./_components/quiz-set-action";
 import { TitleForm } from "./_components/title-form";
 import { AddQuizForm } from "./_components/add-quiz-form";
 import { cn } from "@/lib/utils";
@@ -80,7 +80,7 @@ const EditQuizSet = async ({ params: { quizSetId } }) => {
       />
       <div className="p-6">
         <div className="flex items-center justify-end">
-          <QuizSetAction />
+          <QuizSetActions quizSetId={quizSetId} isActive={quizSet?.active} />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2  gap-6 mt-16">
           {/* Quiz List */}

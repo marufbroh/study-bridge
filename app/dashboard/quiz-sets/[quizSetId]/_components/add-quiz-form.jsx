@@ -128,8 +128,7 @@ export const AddQuizForm = ({ quizSetId }) => {
       const isOneCorrectMarked = correctMarked.length === 1;
 
       if (isOneCorrectMarked) {
-
-await addQuizToQuizSet(quizSetId, values)
+        await addQuizToQuizSet(quizSetId, values);
 
         form.reset({
           title: "",
@@ -151,14 +150,12 @@ await addQuizToQuizSet(quizSetId, values)
             isTrue: false,
           },
         });
-    
+
         toast.success("Quiz added successfully!");
         router.refresh();
-
       } else {
         toast.error("You must mark only one correct answer.");
       }
-    
     } catch (error) {
       toast.error("Something went wrong");
     }
