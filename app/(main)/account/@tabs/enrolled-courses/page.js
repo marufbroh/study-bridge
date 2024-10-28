@@ -25,7 +25,12 @@ async function EnrolledCourses() {
       {enrollments && enrollments.length > 0 ? (
         <>
           {enrollments.map((enrollment) => (
-            <EnrolledCourseCard key={enrollment.id} enrollment={enrollment} />
+            <Link
+              href={`/courses/${enrollment?.course._id.toString()}/lesson`}
+              key={enrollment.id}
+            >
+              <EnrolledCourseCard enrollment={enrollment} />
+            </Link>
           ))}
         </>
       ) : (

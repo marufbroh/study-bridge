@@ -11,10 +11,6 @@ import { redirect } from "next/navigation";
 const CourseDetailsIntro = async ({ course }) => {
   const session = await auth();
 
-  if (!session?.user) {
-    redirect("/login");
-  }
-
   const loggedInUser = await getUserByEmail(session?.user?.email);
 
   const hasEnrolled = await hasEnrollmentForCourse(
@@ -44,7 +40,7 @@ const CourseDetailsIntro = async ({ course }) => {
               <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
                 {hasEnrolled ? (
                   <Link
-                    href=""
+                    href={`/courses/${course?.id}/lesson`}
                     className={cn(
                       buttonVariants({  size: "lg" })
                     )}
