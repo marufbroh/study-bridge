@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { credentialLogin } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,12 +13,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { credentialLogin } from "@/app/actions";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { toast } from "sonner";
 
 export function LoginForm() {
-  const [error, setError] = useState("");
   const router = useRouter();
 
   const onSubmit = async (event) => {
@@ -27,12 +26,13 @@ export function LoginForm() {
       const response = await credentialLogin(formData);
 
       if (!!response.error) {
-        setError(response.error);
-      }else{
-        router.push("/courses")
+        toast.error(response.error);
+      } else {
+        toast.success("User LoggedIn Successfully!");
+        router.push("/courses");
       }
     } catch (error) {
-      setError(error.message);
+      toast.error("Something went wrong!!!");
     }
   };
   return (
