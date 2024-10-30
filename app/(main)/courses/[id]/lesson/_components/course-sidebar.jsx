@@ -5,10 +5,25 @@ import SidebarModules from "./sidebar-modules";
 import { getCourseDetails } from "@/queries/courses";
 import { Watch } from "@/model/watch-model";
 import { getLoggedInUser } from "@/lib/loggedin-user";
+import { getAReport } from "@/queries/reports";
 
 export const CourseSidebar = async ({ courseId }) => {
   const course = await getCourseDetails(courseId);
   const loggedInUser = await getLoggedInUser();
+
+  const report = await getAReport({
+    course: courseId,
+    student: loggedInUser?.id,
+  });
+
+  const totalCompletedModules = report?.totalCompletedModules
+    ? report?.totalCompletedModules.length
+    : 0;
+
+  const totalModules = course?.modules ? course.modules.length : 0;
+
+  const totalProgress =
+    totalModules > 0 ? (totalCompletedModules / totalModules) * 100 : 0;
 
   const updatedModules = await Promise.all(
     course.modules.map(async (module) => {
@@ -37,8 +52,6 @@ export const CourseSidebar = async ({ courseId }) => {
     })
   );
 
-
-
   return (
     <>
       <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
@@ -47,7 +60,7 @@ export const CourseSidebar = async ({ courseId }) => {
 
           {
             <div className="mt-10">
-              <CourseProgress variant="success" value={80} />
+              <CourseProgress variant="success" value={totalProgress} />
             </div>
           }
         </div>
@@ -56,7 +69,7 @@ export const CourseSidebar = async ({ courseId }) => {
 
         <div className="w-full px-6">
           <DownloadCertificate courseId={courseId} />
-          <GiveReview  courseId={courseId}/>
+          <GiveReview courseId={courseId} />
         </div>
       </div>
     </>
