@@ -26,7 +26,7 @@ const quizes = [
 	},
 ];
 
-function VideoDescription() {
+function VideoDescription({description}) {
 	return (
 		<div className="mt-4">
 			<Tabs defaultValue="details">
