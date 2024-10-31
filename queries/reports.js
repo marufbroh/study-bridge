@@ -4,6 +4,7 @@ import { Assessment } from "@/model/assessment-model";
 import { replaceMongoIdInObject } from "@/lib/convertData";
 import mongoose from "mongoose";
 import { Module } from "@/model/module.model";
+import { getCourseDetails } from "./courses";
 
 export async function getAReport(filter) {
   try {
@@ -65,7 +66,24 @@ export async function createWatchReport(data) {
       }
     }
 
-    report.save()
+    // Check if the course has completed
+    // If so, add the completion time.
+    const course = await getCourseDetails(data?.courseId);
+    // console.log(course);
+    const modulesInCourse = course?.modules;
+    const moduleCount = modulesInCourse?.length ?? 0;
+
+    const completedModule = report?.totalCompletedModules;
+    const completedModuleCount = completedModule?.length ?? 0;
+
+    // console.log(moduleCount, completedModuleCount);
+
+    if (completedModuleCount >= 1 && completedModuleCount === moduleCount) {
+      // console.log("Course completed");
+      report.completion_date = Date.now();
+    }
+
+    report.save();
   } catch (error) {
     throw new Error(error);
   }
