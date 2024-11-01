@@ -61,7 +61,7 @@ export const CourseSidebar = async ({ courseId }) => {
     <>
       <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
         <div className="p-8 flex flex-col border-b">
-          <h1 className="font-semibold">Reactive Accelerator</h1>
+          <h1 className="font-semibold">{course?.title}</h1>
 
           {
             <div className="mt-10">

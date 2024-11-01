@@ -1,17 +1,22 @@
+import { addQuizAssessment } from "@/app/actions/quiz";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
-  const totalQuizes = quizzes?.length;
+  const router = useRouter();
+  const totalQuizzes = quizzes?.length;
   const [quizIndex, setQuizIndex] = useState(0);
-  const lastQuizIndex = totalQuizes - 1;
+  const [answers, setAnswers] = useState([]);
+  const lastQuizIndex = totalQuizzes - 1;
   const currentQuiz = quizzes[quizIndex];
 
   // change quiz
-  const quizChangeHanlder = (type) => {
+  const quizChangeHandler = (type) => {
     const nextQuizIndex = quizIndex + 1;
     const prevQuizIndex = quizIndex - 1;
     if (type === "next" && nextQuizIndex <= lastQuizIndex) {
@@ -23,9 +28,44 @@ function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
     }
   };
 
+  const updateAnswer = (event, quizId, quizTitle, selected) => {
+    const key = event.target.name;
+    const checked = event.target.checked;
+
+    const obj = {};
+
+    if (checked) {
+      obj["options"] = selected;
+    }
+
+    const answer = {
+      quizId: quizId,
+      options: [obj],
+    };
+
+    const found = answers.find((a) => a.quizId === answer.quizId);
+
+    if (found) {
+      const filtered = answers.filter((a) => a.quizId !== answer.quizId);
+      setAnswers([...filtered, answer]);
+    } else {
+      setAnswers([...answers, answer]);
+    }
+  };
+
+  const submitQuiz = async (event) => {
+    try {
+      await addQuizAssessment(courseId, quizSetId, answers);
+      setOpen(false);
+      router.refresh();
+      toast.success("Thanks for submitting the quiz");
+    } catch (error) {
+      toast.error("Problem in submitting the quiz");
+    }
+  };
+
   return (
     <>
-      
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[95%] block">
           <div className="pb-4 border-b border-border text-sm">
@@ -73,15 +113,24 @@ function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
           </div>
           <div className="grid md:grid-cols-2 gap-5 mb-6">
             {currentQuiz?.options.map((option) => (
-              <div key={option.id}>
+              <div key={option.label}>
                 <input
                   className="opacity-0 invisible absolute [&:checked_+_label]:bg-success/5"
-                  type="checkbox"
-                  id={`option-${option.id}`}
+                  type="radio"
+                  name="answer"
+                  onChange={(event, quizId, quizTitle, selected) =>
+                    updateAnswer(
+                      event,
+                      quizzes[quizIndex].id,
+                      quizzes[quizIndex].title,
+                      option.label
+                    )
+                  }
+                  id={`option-${option.label}`}
                 />
                 <Label
                   className="border border-border rounded px-2 py-3 block cursor-pointer hover:bg-gray-50 transition-all font-normal"
-                  htmlFor={`option-${option.id}`}
+                  htmlFor={`option-${option.label}`}
                 >
                   {option.label}
                 </Label>
@@ -92,14 +141,21 @@ function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
             <Button
               className="gap-2 rounded-3xl"
               disabled={quizIndex === 0}
-              onClick={() => quizChangeHanlder("prev")}
+              onClick={() => quizChangeHandler("prev")}
             >
               <ArrowLeft /> Previous Quiz
             </Button>
             <Button
               className="gap-2 rounded-3xl"
+              onClick={submitQuiz}
+              type="submit"
+            >
+              Submit
+            </Button>
+            <Button
+              className="gap-2 rounded-3xl"
               disabled={quizIndex >= lastQuizIndex}
-              onClick={() => quizChangeHanlder("next")}
+              onClick={() => quizChangeHandler("next")}
             >
               Next Quiz <ArrowRight />
             </Button>
