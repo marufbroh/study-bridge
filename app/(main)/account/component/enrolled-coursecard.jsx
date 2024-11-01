@@ -33,7 +33,7 @@ const EnrolledCourseCard = async ({ enrollment }) => {
     : 0;
 
   const quizzes = report?.quizAssessment?.assessments;
-  const totalQuizzes = quizzes?.length ?? 0;
+  const totalQuizzes = courseDetails?.quizSet?.quizIds?.length ?? 0;
 
   // Find attempted quizzes
   const quizzesTaken = quizzes? quizzes?.filter((q) => q.attempted) : [];

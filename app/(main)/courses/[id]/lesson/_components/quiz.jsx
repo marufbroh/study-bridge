@@ -67,6 +67,7 @@ const Quiz = ({ courseId, quizSet, isTaken }) => {
         courseId={courseId}
         quizSetId={quizSet?._id.toString()}
         quizzes={quizzes}
+        isTaken={isTaken}
       />
     </>
   );

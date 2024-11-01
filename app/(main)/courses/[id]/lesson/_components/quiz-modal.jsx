@@ -7,7 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
+function QuizModal({ open, setOpen, courseId, quizSetId, quizzes, isTaken }) {
   const router = useRouter();
   const totalQuizzes = quizzes?.length;
   const [quizIndex, setQuizIndex] = useState(0);
@@ -20,7 +20,7 @@ function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
     const nextQuizIndex = quizIndex + 1;
     const prevQuizIndex = quizIndex - 1;
     if (type === "next" && nextQuizIndex <= lastQuizIndex) {
-      console.log("next");
+      // console.log("next");
       return setQuizIndex((prev) => prev + 1);
     }
     if (type === "prev" && prevQuizIndex >= 0) {
@@ -35,7 +35,7 @@ function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
     const obj = {};
 
     if (checked) {
-      obj["options"] = selected;
+      obj["option"] = selected;
     }
 
     const answer = {
@@ -54,6 +54,7 @@ function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
   };
 
   const submitQuiz = async (event) => {
+    // console.log({answers});
     try {
       await addQuizAssessment(courseId, quizSetId, answers);
       setOpen(false);
@@ -146,6 +147,7 @@ function QuizModal({ open, setOpen, courseId, quizSetId, quizzes }) {
               <ArrowLeft /> Previous Quiz
             </Button>
             <Button
+            disabled={isTaken}
               className="gap-2 rounded-3xl"
               onClick={submitQuiz}
               type="submit"

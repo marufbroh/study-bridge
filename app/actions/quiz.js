@@ -102,7 +102,7 @@ export async function deleteQuizSet(quizSetId) {
 
 export async function addQuizAssessment(courseId, quizSetId, answers) {
   try {
-    console.log(quizSetId, answers);
+    // console.log(answers[0].options);
     const quizSet = await getQuizSetById(quizSetId);
     const quizzes = replaceMongoIdInArray(quizSet.quizIds);
 
