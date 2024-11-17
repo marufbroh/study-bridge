@@ -39,7 +39,7 @@ const LessonVideo = ({ courseId, lesson, module }) => {
     };
 
     started && updateLessonWatch();
-  }, [started]);
+  }, [started, courseId, lesson?.id, module]);
 
   useEffect(() => {
 
@@ -68,7 +68,7 @@ const LessonVideo = ({ courseId, lesson, module }) => {
   
       ended && updateLessonWatch();
 
-  }, [ended]);
+  }, [ended, courseId, duration, lesson?.id, module, router]);
 
   const handleOnStart = () => {
     setStarted(true);

@@ -16,7 +16,7 @@ const HomePage = async () => {
   const courses = await getCourseList("desc");
   return (
     <>
-      <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 grainy">
+      <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center relative isolate">
           <div
             aria-hidden="true"
@@ -27,7 +27,7 @@ const HomePage = async () => {
                 clipPath:
                   "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
               }}
-              className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+              className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-br from-blue-500 to-green-400 opacity-50 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
             />
           </div>
           <span className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium border shadow-lg">
@@ -76,7 +76,7 @@ const HomePage = async () => {
                 key={category.id}
                 className="relative overflow-hidden rounded-lg border bg-background p-2 hover:scale-105 transition-all duration-500 ease-in-out"
               >
-                <div className="flex  flex-col gap-4 items-center justify-between rounded-md p-6">
+                <div className="flex  flex-col gap-4 items-center justify-between rounded-md p-6 hover:bg-gradient-to-r from-blue-50 to-green-50">
                   <Image
                     src={`/assets/images/categories/${category.thumbnail}`}
                     alt={category.title}

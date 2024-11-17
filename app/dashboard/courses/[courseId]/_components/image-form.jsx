@@ -42,7 +42,7 @@ export const ImageForm = ({ initialData, courseId }) => {
           if (response.status === 200) {
             initialData.imageUrl = `/assets/images/courses/${file[0].path}`;
             toast.success(result);
-            toggleEdit()
+            toggleEdit();
             router.refresh();
           }
         } catch (error) {
@@ -52,7 +52,7 @@ export const ImageForm = ({ initialData, courseId }) => {
 
       uploadFile();
     }
-  }, [file]);
+  }, [file, courseId, initialData, router]);
 
   const toggleEdit = () => setIsEditing((current) => !current);
 

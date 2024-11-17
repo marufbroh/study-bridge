@@ -58,7 +58,7 @@ const EnrolledCourseCard = async ({ enrollment }) => {
   const totalMarks = marksFromQuizzes + otherMarks;
 
   return (
-    <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
+    <div className="group overflow-hidden border rounded-lg p-3 h-full hover:bg-gradient-to-r from-blue-50 to-green-50 hover:scale-105 transition-all duration-500 ease-in-out">
       <div className="relative w-full aspect-video rounded-md overflow-hidden">
         <Image
           src={`/assets/images/courses/${enrollment?.course?.thumbnail}`}

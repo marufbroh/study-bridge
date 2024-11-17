@@ -30,7 +30,7 @@ const Testimonials = ({testimonials}) => {
               className="md:basis-1/2 lg:basis-1/3"
             >
               <div className="sm:break-inside-avoid">
-                <blockquote className="rounded-lg bg-gray-50 p-6  sm:p-8 shadow-sm">
+                <blockquote className="rounded-lg bg-gray-50 hover:bg-gradient-to-r from-blue-50 to-green-50 p-6 sm:p-8 shadow-sm">
                   <div className="flex items-center gap-4">
                     <Image
                       alt={testimonial?.user?.firstName}

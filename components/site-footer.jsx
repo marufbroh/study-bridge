@@ -10,7 +10,7 @@ export function SiteFooter({ className }) {
           <p className="text-center text-sm leading-loose md:text-left">
             Built by{" "}
             <a
-              href="#"
+              href="https://ui.shadcn.com"
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
@@ -34,7 +34,7 @@ export function SiteFooter({ className }) {
             >
               Popsy
             </a>
-            . The source code is available on{" "}
+            {/* . The source code is available on{" "}
             <a
               href="#"
               target="_blank"
@@ -42,7 +42,7 @@ export function SiteFooter({ className }) {
               className="font-medium underline underline-offset-4"
             >
               GitHub
-            </a>
+            </a> */}
             .
           </p>
         </div>

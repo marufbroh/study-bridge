@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const CourseCard = ({ course }) => {
   return (
-    <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
+    <div className="group hover:shadow-sm  overflow-hidden border rounded-lg p-3 h-full hover:bg-gradient-to-r from-blue-50 to-green-50 hover:scale-105 transition-all duration-500 ease-in-out">
       <Link href={`/courses/${course.id}`}>
         <div>
           <div className="relative w-full aspect-video rounded-md overflow-hidden">
