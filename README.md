@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Study Bridge
 
-## Getting Started
+Study Bridge is an advanced learning platform that enables users to buy and access courses and empowers instructors to create and manage their own courses. The platform is built with modern technologies to ensure a smooth and engaging user experience.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### General Features
+- **Home Page**: Course listings, "Explore Now" section, and engaging UI.
+- **Course Details Page**: Detailed information about each course.
+- **Authentication**: Register as a user or instructor, login, and manage account with secure JWT-based authentication.
+- **Stripe Integration**: Seamless payment handling for course enrollments.
+- **Email Functionality**: Send notifications and updates using Resend.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Dashboard Features
+- **Instructor Dashboard**: Manage course data, reviews, and enrollments.
+- **Analytics**: Monitor student progress and course performance.
+- **Course Creation**: Add metadata, upload images, and publish/unpublish courses.
+- **Module Management**: Create and reorder modules, update titles, and manage lessons.
+- **Lesson Management**: Add videos, update titles, and manage lesson visibility.
+- **Quiz Management**: Add quizzes and integrate them with courses.
+- **Progress Tracking**: Show course completion in real-time.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Learning Features
+- **Video Player**: Stream lessons with progress tracking and watch history updates.
+- **Lesson Navigation**: Sidebar with links to lessons and real-time state management.
+- **Course Completion Certificate**: Downloadable certificates for completed courses.
+- **Quiz Submission**: Evaluate knowledge through quizzes linked to lessons.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend**: Next.js, Tailwind CSS, Shadcn UI
+- **Backend**: Mongoose, MongoDB
+- **Authentication**: Auth.js (with JWT refresh tokens)
+- **Payments**: Stripe
+- **File Management**: Cloudinary
+- **Forms**: React Hook Form
+- **Email Sending**: Resend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 🗄️ Database Design
+
+### Key Models
+1. **User**: Tracks user information, roles, and account details.
+2. **Course**: Manages course metadata, modules, and lessons.
+3. **Module**: Organizes lessons and supports reordering.
+4. **Lesson**: Includes video links, quiz data, and watch history.
+5. **Quiz**: Holds quiz questions and answers for lessons.
+6. **Enrollment**: Tracks users enrolled in courses.
+
+---
+
+## ⚡ Pages and Components
+
+### Public Pages
+- **Home Page**
+- **Course List**
+- **Course Details**
+
+### Authentication Pages
+- **Login**
+- **Register**
+- **Reset Password**
+- **Account Update**
+
+### Dashboard Pages
+- **Instructor Dashboard**
+- **Analytics**
+- **Course Management**
+- **Module Management**
+- **Lesson Management**
+- **Quiz Management**
+
+---
+
+## Acknowledgements
+
+I would like to thank **LWS and Tapas Adhikary** for providing an excellent learning resource that guided me in building this project. The tutorials and insights from LWS were invaluable in helping me develop and enhance my skills throughout the process.
